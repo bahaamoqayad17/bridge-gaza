@@ -33,13 +33,22 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand Section */}
           <div className="col-span-1">
-            <Link href="/" className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-                <span className="text-white font-bold text-lg">BG</span>
+            <Link href="/" className="flex items-center gap-3 group">
+              <Image
+                width={65}
+                height={65}
+                src={"/logo.png"}
+                alt="bridge gaza logo"
+              />
+              <div className="flex flex-col">
+                <span className="text-xl font-poppins font-bold text-foreground bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
+                  Bridge Gaza
+                </span>
+
+                <span className="text-xs text-muted">
+                  Connecting Gaza to the World
+                </span>
               </div>
-              <span className="text-lg font-poppins font-bold text-foreground">
-                Bridge Gaza
-              </span>
             </Link>
             <p className="text-muted-foreground text-sm mb-4">
               Connecting Gaza to the world through mentorship and collaboration.
