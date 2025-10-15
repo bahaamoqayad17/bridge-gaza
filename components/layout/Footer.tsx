@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Facebook, Twitter, Linkedin, Instagram, Mail } from "lucide-react";
+import Image from "next/image";
 
 const Footer = () => {
   const socialLinks = [
