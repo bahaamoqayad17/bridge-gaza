@@ -142,7 +142,7 @@ const FeaturedMentors = () => {
                     ))}
                   </div>
 
-                  <Link href={`/mentor/${mentor.id}`}>
+                  <Link href={`/mentors/${mentor.id}`}>
                     <Button className="w-full" variant="outline">
                       View Profile
                     </Button>
@@ -154,7 +154,7 @@ const FeaturedMentors = () => {
         </div>
 
         <div className="text-center">
-          <Link href="/dashboard/mentors">
+          <Link href="/mentors">
             <Button size="lg" className="shadow-soft">
               Browse All Mentors
             </Button>

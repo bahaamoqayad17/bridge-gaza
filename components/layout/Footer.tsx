@@ -12,7 +12,7 @@ const Footer = () => {
 
   const footerLinks = {
     Platform: [
-      { name: "Find Mentors", href: "/dashboard/mentors" },
+      { name: "Find Mentors", href: "/mentors" },
       { name: "Become a Mentor", href: "/auth/register" },
       { name: "How It Works", href: "/#how-it-works" },
     ],
