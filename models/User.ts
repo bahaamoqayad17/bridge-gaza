@@ -22,19 +22,24 @@ const userSchema = new mongoose.Schema(
     },
     bio: {
       type: String,
-      trim: true,
+      trim: true, // for mentor
     },
     job_title: {
       type: String,
-      trim: true,
+      trim: true, // for mentor
     },
     company_name: {
       type: String,
-      trim: true,
+      trim: true, // for mentor
+    },
+    goal: {
+      type: String,
+      trim: true, // for student
     },
     avatar: {
       type: String,
       trim: true,
+      default: "https://ui-avatars.com/api/?name=John+Doe",
     },
     password: {
       type: String,
@@ -71,17 +76,8 @@ userSchema.set("toJSON", {
   },
 });
 
-export type UserType = Omit<InferSchemaType<typeof userSchema>, "role"> & {
+export type UserType = InferSchemaType<typeof userSchema> & {
   _id: mongoose.Types.ObjectId | string;
-  name: string;
-  username: string;
-  email: string;
-  password?: string; // Optional because it gets deleted in toJSON
-  mobile_number: string;
-  isActive: boolean;
-  role: string;
-  createdAt: Date;
-  updatedAt: Date;
 };
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);

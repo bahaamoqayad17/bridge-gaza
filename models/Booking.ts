@@ -11,12 +11,9 @@ const BookingSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    start_date: {
-      type: Date,
-      required: true,
-    },
-    end_date: {
-      type: String,
+    availability: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Availability",
       required: true,
     },
     status: {
