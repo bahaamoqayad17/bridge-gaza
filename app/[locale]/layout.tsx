@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/locales/routing";
 import { setRequestLocale } from "next-intl/server";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Bridge Gaza",
@@ -32,11 +33,13 @@ export default async function RootLayout({
   }
   return (
     <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+      <link rel="icon" href="/logo.png" />
       <body className={`antialiased`}>
         <NextIntlClientProvider locale={locale}>
           <Navbar />
           {children}
           <Footer />
+          <Toaster />
         </NextIntlClientProvider>
       </body>
     </html>

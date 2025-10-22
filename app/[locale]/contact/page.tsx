@@ -7,8 +7,90 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { createContact } from "@/actions/contact-actions";
+import { toast } from "sonner";
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    if (!formData.subject.trim()) {
+      newErrors.subject = "Subject is required";
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+
+    // Clear error when user starts typing
+    if (errors[id]) {
+      setErrors((prev) => ({ ...prev, [id]: "" }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await createContact(formData);
+
+      if (result.success) {
+        toast.success("Message sent successfully! We'll get back to you soon.");
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+        setErrors({});
+      } else {
+        toast.error(
+          result.message || "Failed to send message. Please try again."
+        );
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-background">
       <main className="pt-24 pb-16">
@@ -126,11 +208,20 @@ const Contact = () => {
             >
               <Card className="shadow-lift border-2">
                 <CardContent className="p-8">
-                  <form className="space-y-6">
+                  <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="name">Full Name *</Label>
-                        <Input id="name" placeholder="John Doe" />
+                        <Input
+                          id="name"
+                          placeholder="John Doe"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          className={errors.name ? "border-red-500" : ""}
+                        />
+                        {errors.name && (
+                          <p className="text-sm text-red-500">{errors.name}</p>
+                        )}
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="email">Email *</Label>
@@ -138,13 +229,28 @@ const Contact = () => {
                           id="email"
                           type="email"
                           placeholder="john@example.com"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          className={errors.email ? "border-red-500" : ""}
                         />
+                        {errors.email && (
+                          <p className="text-sm text-red-500">{errors.email}</p>
+                        )}
                       </div>
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="subject">Subject *</Label>
-                      <Input id="subject" placeholder="How can we help you?" />
+                      <Input
+                        id="subject"
+                        placeholder="How can we help you?"
+                        value={formData.subject}
+                        onChange={handleInputChange}
+                        className={errors.subject ? "border-red-500" : ""}
+                      />
+                      {errors.subject && (
+                        <p className="text-sm text-red-500">{errors.subject}</p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -152,12 +258,24 @@ const Contact = () => {
                       <Textarea
                         id="message"
                         placeholder="Tell us more about your inquiry..."
-                        className="min-h-[200px]"
+                        className={`min-h-[200px] ${
+                          errors.message ? "border-red-500" : ""
+                        }`}
+                        value={formData.message}
+                        onChange={handleInputChange}
                       />
+                      {errors.message && (
+                        <p className="text-sm text-red-500">{errors.message}</p>
+                      )}
                     </div>
 
-                    <Button type="submit" size="lg" className="w-full h-12">
-                      Send Message
+                    <Button
+                      type="submit"
+                      size="lg"
+                      className="w-full h-12"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Sending..." : "Send Message"}
                     </Button>
 
                     <p className="text-sm text-muted-foreground text-center">
