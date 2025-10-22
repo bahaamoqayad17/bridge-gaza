@@ -50,10 +50,10 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
-            <Link href="/auth/login">
+            <Link href="/login">
               <Button variant="ghost">Sign In</Button>
             </Link>
-            <Link href="/auth/register">
+            <Link href="/register">
               <Button>Get Started</Button>
             </Link>
           </div>
@@ -88,15 +88,12 @@ const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
-              <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
+              <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                 <Button variant="ghost" className="w-full">
                   Sign In
                 </Button>
               </Link>
-              <Link
-                href="/auth/register"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
                 <Button className="w-full">Get Started</Button>
               </Link>
             </div>

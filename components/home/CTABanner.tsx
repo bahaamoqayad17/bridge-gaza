@@ -48,7 +48,7 @@ const CTABanner = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/auth/register">
+                <Link href="/register">
                   <Button
                     size="lg"
                     className="bg-white text-primary hover:bg-white/90 text-lg px-8 h-14 shadow-soft group"
